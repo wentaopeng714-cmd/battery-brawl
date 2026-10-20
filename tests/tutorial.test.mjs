@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {Training} from '../dist/tutorial.mjs';
+function untilWait(t){for(let i=0;i<100&&!t.waiting&&!t.complete;i++)t.advance(.08);}
+test('guided training waits at each car until the correct input, then completes a real relay',()=>{const t=new Training();for(const lane of [1,2,3]){untilWait(t);assert.equal(t.step,lane);const time=t.time;for(let i=0;i<200;i++)t.advance(.08);assert.equal(t.time,time);assert.equal(t.action(lane===3?1:3),null);assert.equal(t.step,lane);assert.ok(t.action(lane));}for(let i=0;i<20;i++)t.advance(.08);assert.ok(t.complete);assert.equal(t.round.jumps,1);assert.equal(t.round.spins,1);assert.equal(t.round.caught,1);assert.equal(t.round.exploded,0);});
+test('training cannot advance from a premature or repeated action',()=>{const t=new Training();assert.equal(t.action(1),null);untilWait(t);assert.ok(t.action(1));assert.equal(t.action(1),null);assert.equal(t.step,2);});

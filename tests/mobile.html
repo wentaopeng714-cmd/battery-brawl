@@ -1,0 +1,9 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>电池大作战 · 手机布局验证</title>
+<style>*{box-sizing:border-box}body{background:#deded6;margin:0;display:flex;flex-direction:column;align-items:center;padding:10px;font:12px sans-serif;gap:10px}label{height:30px;display:flex;align-items:center;gap:12px;color:#5b5d52}select{padding:5px;font-size:12px;border:1px solid #bbbfb0;background:#f6f7f0}#frame{position:relative;box-shadow:0 5px 25px #0002}iframe{border:0;position:absolute;left:0;top:0;transform-origin:top left}</style>
+<label>手机布局检查 <select id="size"><option value="390,844">竖屏 390 × 844</option><option value="320,568">小屏 320 × 568</option><option value="844,390">横屏 844 × 390</option></select></label>
+<div id="frame"><iframe src="../dist/index.html" title="手机游戏预览"></iframe></div>
+<script>
+const chooser=document.getElementById('size'),outer=document.getElementById('frame'),phone=document.querySelector('iframe');
+function fit(){const [w,h]=chooser.value.split(',').map(Number),s=Math.min(1,(innerWidth-30)/w,(innerHeight-65)/h);phone.style.width=w+'px';phone.style.height=h+'px';phone.style.transform='scale('+s+')';outer.style.width=w*s+'px';outer.style.height=h*s+'px';}
+chooser.addEventListener('change',fit);addEventListener('resize',fit);fit();
+</script></html>
